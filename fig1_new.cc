@@ -188,6 +188,7 @@ void UserDIS::userfunc(const event_dis& p, const amplitude_dis& amp)
         if(Pjt>Pjtmax|| Pjt<Pjtmin||yj>yjmax||yj<yjmin)
         {if(jetnum<sortedJets.size()-1)continue;
             if(jetnum==sortedJets.size()-1)return;}
+        break
     }
     
     double hardscale=pow(2*Pjt,2);
