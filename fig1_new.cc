@@ -159,29 +159,36 @@ void UserDIS::userfunc(const event_dis& p, const amplitude_dis& amp)
     inclusiveJets = clust_seq.inclusive_jets(pTjetMin);
     sortedJets = sorted_by_pt(inclusiveJets);
     //----------1-jettiness
-//    cout<<p<<endl;
-//    cout<<inclusiveJets[0].Et()<<endl;
-
     double Q2 = -((p[-1] - p[-2]).mag2());
     double xB=Q2/2.0/dot(p[hadron(0)],(p[-1] - p[-2]));
     double s = 4.0*p[-1].T()*p[hadron(0)].T();
-
     double qB[4]={xB*p[hadron(0)].T(),0.0,0.0,xB*p[hadron(0)].Z()};
     double QB = xB*sqrt(s);
-    double qJ[4]={sortedJets[0].Et()*cosh(sortedJets[0].rap()),sortedJets[0].px(),sortedJets[0].py(),sortedJets[0].Et()*sinh(sortedJets[0].rap())};
-    double QJ=2*sortedJets[0].Et()*cosh(sortedJets[0].rap());
-    double Pj[4] ={0.0,0.0,0.0,0.0};
-    for (int i=1;i<=p.upper();i++){
-        if((p[i].T()*qB[0]-p[i].X()*qB[1]-p[i].Y()*qB[2]-p[i].Z()*qB[3]/QB)>(p[i].T()*qJ[0]-p[i].X()*qJ[1]-p[i].Y()*qJ[2]-p[i].Z()*qJ[3])/QJ){
-        Pj[0]+=p[i].T();
-        Pj[1]+=p[i].X();
-        Pj[2]+=p[i].Y();
-        Pj[3]+=p[i].Z();
+    double qJ[4],QJ,Pj[4],Pjt,yj;
+    for (int jetnum=0;jetnum<sortedJets.size();jetnum++){
+        qJ[0]=sortedJets[jetnum].Et()*cosh(sortedJets[jetnum].rap());
+        qJ[1]=sortedJets[jetnum].px();
+        qJ[2]=sortedJets[jetnum].py();
+        qJ[3]=sortedJets[jetnum].Et()*sinh(sortedJets[jetnum].rap());
+        QJ=2*sortedJets[jetnum].Et()*cosh(sortedJets[jetnum].rap());
+        Pj[0] =0.0;
+        Pj[1] =0.0;
+        Pj[2] =0.0;
+        Pj[3] =0.0;
+        for (int i=1;i<=p.upper();i++){
+            if((p[i].T()*qB[0]-p[i].X()*qB[1]-p[i].Y()*qB[2]-p[i].Z()*qB[3]/QB)>(p[i].T()*qJ[0]-p[i].X()*qJ[1]-p[i].Y()*qJ[2]-p[i].Z()*qJ[3])/QJ){
+                Pj[0]+=p[i].T();
+                Pj[1]+=p[i].X();
+                Pj[2]+=p[i].Y();
+                Pj[3]+=p[i].Z();
+            }
+        }
+        Pjt=sqrt(pow(Pj[1],2)+pow(Pj[2],2));
+        yj=0.5*log((Pj[0]+Pj[3])/(Pj[0]-Pj[3]));
+        if(Pjt>Pjtmax|| Pjt<Pjtmin||yj>yjmax||yj<yjmin)
+        {if(jetnum<sortedJets.size()-1)continue;
+            if(jetnum==sortedJets.size()-1)return;}
     }
-    }
-    double Pjt=sqrt(pow(Pj[1],2)+pow(Pj[2],2));
-    double yj=0.5*log((Pj[0]+Pj[3])/(Pj[0]-Pj[3]));
-    if(Pjt>Pjtmax|| Pjt<Pjtmin||yj>yjmax||yj<yjmin) return;
     
     double hardscale=pow(2*Pjt,2);
     //double hardscale=pow(2*Pjtmin,2);
