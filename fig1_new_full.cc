@@ -50,7 +50,7 @@ struct {
 
 //------ USER defined part starts here ------
 //#include "pdf-cteq6.h"
-#include "lha_pdf.h"
+#include "lha_pdf_full.h"
 
 class UserDIS : public user1h_dis
 {
@@ -186,11 +186,11 @@ void UserDIS::userfunc(const event_dis& p, const amplitude_dis& amp)
         Pjt=sqrt(pow(Pj[1],2)+pow(Pj[2],2));
         yj=0.5*log((Pj[0]+Pj[3])/(Pj[0]-Pj[3]));
         if(Pjt>Pjtmax|| Pjt<Pjtmin||yj>yjmax||yj<yjmin)
-        {if(jetnum<sortedJets.size()-1)continue;
+        {
+            if(jetnum<sortedJets.size()-1)continue;
             if(jetnum==sortedJets.size()-1)return;}
-        break;
-    }
-    
+                break;
+    }    
     double hardscale=pow(2*Pjt,2);
     //double hardscale=pow(2*Pjtmin,2);
     double hardscale1=hardscale/4;

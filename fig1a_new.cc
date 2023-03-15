@@ -84,9 +84,9 @@ void inputfunc(unsigned int& nj, unsigned int& nu, unsigned int& nd)
     nd = 3U;
 }
 //constants
-double dtau1amax=0.41;
-double dtau1amin=0.01;
-int nbin=130;
+double dtau1amax=1.005;
+double dtau1amin=0.005;
+int nbin=100;
 double pTjetMin=0.;
 double radius = 1.; // jet cone radius
 
