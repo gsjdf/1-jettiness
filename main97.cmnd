@@ -1,0 +1,28 @@
+
+// CM energy
+Beams:frameType = 2
+Beams:idA = 2212
+Beams:eA = 159.5
+Beams:idB = 11
+Beams:eB = 159.5
+//Beams:eCM = 140.0 //!5505.0!505.0!105.0
+
+
+// select partonic process
+WeakBosonExchange:ff2ff(t:gmZ) = on
+//HadronLevel:all = off
+SpaceShower:dipoleRecoil = on
+SpaceShower:pTmaxMatch = 2
+
+PDF:lepton=off
+TimeShower:QEDshowerByL=off
+//cteq66
+
+
+// other settings
+Next:numberShowInfo = 1
+Next:numberShowProcess = 1
+Next:numberShowEvent = 1
+Next:numberCount = 0
+
+ 
